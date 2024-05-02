@@ -1,0 +1,28 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: gateway
+spec:
+  image: otel/opentelemetry-collector-contrib:latest
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
+    processors:
+
+    exporters:
+      debug:
+        verbosity: detailed
+      otlphttp:
+        endpoint: http://loki:3100
+        logs_endpoint: http://loki:3100/otlp/v1/logs
+    service:
+      pipelines:
+        logs:
+          receivers: [otlp]
+          processors: []
+          exporters: [otlphttp, debug]

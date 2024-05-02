@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: log
+  labels:
+    name: log
+spec:
+  containers:
+  - name: log
+    image: sikwan/random-json-logger:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
